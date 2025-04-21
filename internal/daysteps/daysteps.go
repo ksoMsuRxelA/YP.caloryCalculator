@@ -3,6 +3,7 @@ package daysteps
 import (
 	"errors"
 	"fmt"
+	"log"
 	"strconv"
 	"strings"
 	"time"
@@ -45,18 +46,22 @@ func parsePackage(data string) (int, time.Duration, error) {
 		err = fmt.Errorf("there was a problem when calling \"parsePackage()\" with this argument's part \"%s\": %w\n", parts[1], ErrInvalidInput)
 		return 0, 0, err
 	}
+	if duration <= 0 {
+		err = fmt.Errorf("there was a problem when calling \"parsePackage()\" with this argument's part \"%s\": %w\n", parts[1], ErrSubZeroValue)
+		return 0, 0, err
+	}
 
 	return steps, duration, nil
 }
 
 func DayActionInfo(data string, weight, height float64) string {
 	steps, duration, err := parsePackage(data)
-	if steps <= 0 {
+	if err != nil {
+		log.Println(err)
 		return ""
 	}
 
-	if err != nil {
-		fmt.Println(err)
+	if steps <= 0 {
 		return ""
 	}
 
