@@ -40,7 +40,7 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 		return 0, "", 0, err
 	}
 
-	duration, err := time.ParseDuration(parts[1])
+	duration, err := time.ParseDuration(parts[2])
 	if err != nil {
 		err = fmt.Errorf("there was a problem when calling \"parseTraining()\" with this argument's part \"%s\": %w\n", parts[1], ErrInvalidInput)
 		return 0, "", 0, err
